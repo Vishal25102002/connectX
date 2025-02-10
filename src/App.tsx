@@ -1,9 +1,11 @@
+// src/App.tsx
 import React from 'react';
-import Chatbot from './components/Chatbot';
-import Home from "./components/Home"
+import Home from './components/Home';
+import Chatbot from './components/chatbot/Chatbot';
+
 const App: React.FC = () => {
   return (
-     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 flex flex-col items-center justify-center">
+    <div className="App">
       <Home />
       <Chatbot />
     </div>
