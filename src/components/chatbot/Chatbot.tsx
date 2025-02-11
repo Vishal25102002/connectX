@@ -21,7 +21,7 @@ const Chatbot: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'home' | 'chat'>('home');
 
-  // Allow event to be optional so we can toggle programmatically if needed
+  // Toggle the chatbot open/closed
   const toggleChatbot = (e?: React.MouseEvent<HTMLButtonElement>) => {
     e?.stopPropagation();
     setIsOpen((prev) => !prev);
@@ -37,8 +37,9 @@ const Chatbot: React.FC = () => {
     try {
       const response = await axios.post(
         '/api/chat/',
-  { query: message },
-  { headers: { 'Content-Type': 'application/json' } });
+        { query: message },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
       const botText = response.data.response?.content || "Sorry, I didn't understand that.";
       const botMessage: Message = { id: Date.now() + 1, text: botText, sender: 'bot' };
       setMessages((prev) => [...prev, botMessage]);
@@ -62,13 +63,13 @@ const Chatbot: React.FC = () => {
           className="
             fixed bottom-16 right-4 sm:right-6 md:right-8 lg:right-10
             w-80 md:w-96
-            bg-white border border-gray-300 rounded-xl shadow-xl
+            bg-white/80 backdrop-blur-xl border border-blue-200 rounded-3xl shadow-2xl
             flex flex-col h-[70vh] sm:h-[600px] z-50 overflow-hidden
           "
         >
           <ChatbotHeader onClose={toggleChatbot} />
           <div className="flex flex-col flex-1 overflow-hidden">
-            <div className="flex-1 p-4 space-y-4 overflow-y-auto">
+            <div className="flex-1 p-6 space-y-4 overflow-y-auto">
               {activeTab === 'home' ? (
                 <ChatbotHome onPreloadedMessageClick={handleSendMessage} />
               ) : (
@@ -84,7 +85,7 @@ const Chatbot: React.FC = () => {
                 </>
               )}
             </div>
-            <div className="sticky bottom-0 bg-white border-t">
+            <div className="sticky bottom-0 bg-white/80 backdrop-blur-md border-t border-blue-200">
               {activeTab === 'chat' && <ChatbotInput onSendMessage={handleSendMessage} />}
               <ChatbotNav
                 onHomeClick={() => setActiveTab('home')}

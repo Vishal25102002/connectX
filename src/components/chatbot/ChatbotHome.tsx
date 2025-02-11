@@ -35,7 +35,7 @@ const ChatbotHome: React.FC<ChatbotHomeProps> = ({ onPreloadedMessageClick }) =>
       </div>
       <button
         onClick={() => onPreloadedMessageClick("Contact Support")}
-        className="mt-6 w-full px-4 py-3 bg-indigo-600 text-white rounded-lg transition transform hover:bg-indigo-700 hover:shadow-md hover:scale-105 focus:outline-none"
+        className="mt-6 w-full px-4 py-3 bg-blue-700 text-white rounded-lg transition transform hover:bg-indigo-700 hover:shadow-md hover:scale-105 focus:outline-none"
       >
         Contact Support
       </button>
