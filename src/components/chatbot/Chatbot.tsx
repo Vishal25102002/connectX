@@ -5,14 +5,16 @@ import ChatbotHeader from './ChatbotHeader';
 import ChatbotHome from './ChatbotHome';
 import ChatbotInput from './ChatbotInput';
 import MessageList from './MessageList';
-import ChatbotLoader from './ChatbotLoader';
 import ChatbotNav from './ChatbotNav';
 import ChatbotButton from './ChatbotButton';
+import ChatbotLoader from './ChatbotLoader'; // Import the loader component
+import "../../App.css"
 
 export interface Message {
   id: number;
   text: string;
   sender: 'bot' | 'user';
+  timestamp: Date;
 }
 
 const Chatbot: React.FC = () => {
@@ -27,30 +29,53 @@ const Chatbot: React.FC = () => {
     setIsOpen((prev) => !prev);
   };
 
+  const handleResetChat = () => {
+    setMessages([]);
+    setActiveTab('home');
+  };
+
   const handleSendMessage = async (message: string) => {
     setActiveTab('chat');
 
-    const userMessage: Message = { id: Date.now(), text: message, sender: 'user' };
+    // Add user message to state
+    const userMessage: Message = { 
+      id: Date.now(), 
+      text: message, 
+      sender: 'user', 
+      timestamp: new Date() 
+    };
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
 
     try {
+      // IMPORTANT: Must match FastAPI's expected key: "question"
       const response = await axios.post(
-        '/api/chat/',
-        { query: message },
-        { headers: { 'Content-Type': 'application/json' } }
+        "http://127.0.0.1:5000/ask",
+        { question: message },
+        { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }
       );
-      const botText = response.data.response?.content || "Sorry, I didn't understand that.";
-      const botMessage: Message = { id: Date.now() + 1, text: botText, sender: 'bot' };
+
+      // The FastAPI endpoint returns { "answer": "some text" }
+      const botText = response.data.answer || "Sorry, I didn't understand that.";
+
+      const botMessage: Message = { 
+        id: Date.now() + 1, 
+        text: botText, 
+        sender: 'bot', 
+        timestamp: new Date() 
+      };
       setMessages((prev) => [...prev, botMessage]);
+
     } catch (error) {
       console.error(error);
       const errorMessage: Message = {
         id: Date.now() + 1,
         text: "Error processing your request.",
         sender: 'bot',
+        timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
+
     } finally {
       setIsLoading(false);
     }
@@ -61,17 +86,20 @@ const Chatbot: React.FC = () => {
       {isOpen && (
         <div
           className="
-            fixed bottom-16 right-4 sm:right-6 md:right-8 lg:right-10
-            w-80 md:w-96
+            fixed bottom-16 right-2 sm:right-4 md:right-6 lg:right-8
+            w-[90vw] sm:w-80 md:w-96 lg:w-[400px] xl:w-[450px]
             bg-white/80 backdrop-blur-xl border border-blue-200 rounded-3xl shadow-2xl
-            flex flex-col h-[70vh] sm:h-[600px] z-50 overflow-hidden
+            flex flex-col h-[70vh] sm:h-[600px] lg:h-[650px] z-50 overflow-hidden
           "
         >
-          <ChatbotHeader onClose={toggleChatbot} />
+          <ChatbotHeader onClose={toggleChatbot} onReset={handleResetChat} />
           <div className="flex flex-col flex-1 overflow-hidden">
-            <div className="flex-1 p-6 space-y-4 overflow-y-auto">
+            <div className="flex-1 p-4 sm:p-6 space-y-4 overflow-y-auto scrollbar-hidden">
               {activeTab === 'home' ? (
-                <ChatbotHome onPreloadedMessageClick={handleSendMessage} />
+                <ChatbotHome 
+                  onPreloadedMessageClick={handleSendMessage} 
+                  setActiveTab={setActiveTab} 
+                />
               ) : (
                 <>
                   {messages.length === 0 ? (
@@ -81,7 +109,7 @@ const Chatbot: React.FC = () => {
                   ) : (
                     <MessageList messages={messages} />
                   )}
-                  {isLoading && <ChatbotLoader />}
+                  {isLoading && <ChatbotLoader />} {/* Use the loader component here */}
                 </>
               )}
             </div>

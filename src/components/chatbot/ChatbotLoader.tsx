@@ -3,45 +3,36 @@ import React from 'react';
 
 const ChatbotLoader: React.FC = () => {
   return (
-    <>
-      {/* Define keyframes for the bouncing animation */}
+    <div className="flex items-center mt-2">
       <style>
         {`
-          @keyframes bounceTyping {
+          @keyframes bounce {
             0%, 80%, 100% {
               transform: translateY(0);
+              opacity: 0.5;
             }
             40% {
-              transform: translateY(-8px);
+              transform: translateY(-4px);
+              opacity: 1;
             }
           }
         `}
       </style>
-      
-      <div className="flex items-center space-x-1 mt-2">
+      <div className="flex space-x-1">
         <div
-          className="w-2 h-2 bg-indigo-400 rounded-full"
-          style={{
-            animation: 'bounceTyping 1.4s infinite',
-            animationDelay: '0s',
-          }}
+          className="w-2 h-2 bg-blue-500 rounded-full"
+          style={{ animation: 'bounce 1s infinite', animationDelay: '0s' }}
         ></div>
         <div
-          className="w-2 h-2 bg-indigo-400 rounded-full"
-          style={{
-            animation: 'bounceTyping 1.4s infinite',
-            animationDelay: '0.2s',
-          }}
+          className="w-2 h-2 bg-blue-500 rounded-full"
+          style={{ animation: 'bounce 1s infinite', animationDelay: '0.2s' }}
         ></div>
         <div
-          className="w-2 h-2 bg-indigo-400 rounded-full"
-          style={{
-            animation: 'bounceTyping 1.4s infinite',
-            animationDelay: '0.4s',
-          }}
+          className="w-2 h-2 bg-blue-500 rounded-full"
+          style={{ animation: 'bounce 1s infinite', animationDelay: '0.4s' }}
         ></div>
       </div>
-    </>
+    </div>
   );
 };
 

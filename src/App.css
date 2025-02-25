@@ -42,4 +42,13 @@ html, body {
 .dot {
   animation: bounce 1.4s infinite ease-in-out both;
 }
+/* Hide scrollbar for WebKit browsers */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+/* Hide scrollbar for Firefox */
+.scrollbar-hidden {
+  scrollbar-width: none; /* Firefox */
+}
 

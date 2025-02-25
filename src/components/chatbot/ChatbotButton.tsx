@@ -10,18 +10,17 @@ const ChatbotButton: React.FC<ChatbotButtonProps> = ({ toggleChat }) => {
     <button
       onClick={toggleChat}
       className="
-        fixed bottom-4 right-4 
+        fixed bottom-4 right-4 sm:right-6 md:right-8 lg:right-10 
         bg-blue-700 text-white rounded-full 
-        w-14 h-14 md:w-16 md:h-16 
+        w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16
         flex items-center justify-center 
         shadow-xl z-[9999]
         hover:shadow-2xl hover:scale-105 transition-transform duration-200 
-        
       "
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="h-7 w-7 md:h-8 md:w-8"
+        className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

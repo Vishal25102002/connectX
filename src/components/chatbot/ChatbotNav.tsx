@@ -1,7 +1,7 @@
 // src/components/chatbot/ChatbotNav.tsx
 import React from 'react';
-import homeIcon from '../../assets/house-cleaning_4767644.png';
-import chatIcon from '../../assets/new-message_5617005.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faComments } from '@fortawesome/free-solid-svg-icons';
 
 interface ChatbotNavProps {
   onHomeClick: () => void;
@@ -11,23 +11,23 @@ interface ChatbotNavProps {
 
 const ChatbotNav: React.FC<ChatbotNavProps> = ({ onHomeClick, onChatClick, activeTab }) => {
   return (
-    <div className="flex justify-around items-center p-4 bg-white/90 backdrop-blur-sm border-t border-blue-200">
+    <div className="flex justify-around items-center p-4">
       <button
         onClick={onHomeClick}
-        className={`flex flex-col items-center transition-colors duration-200 ${
-          activeTab === 'home' ? 'text-blue-600 font-bold' : 'text-gray-500'
-        }`}
+        className={`flex flex-col items-center transition-colors duration-300 ease-in-out p-4 rounded-lg ${
+          activeTab === 'home' ? 'text-blue-600 font-bold' : 'text-gray-600'
+        } hover:text-blue-500 focus:text-blue-500 focus:outline-none hover:shadow-lg bg-transparent hover:bg-gray-100`}
       >
-        <img src={homeIcon} alt="Home" className="w-8 h-8" />
+        <FontAwesomeIcon icon={faHome} className="w-8 h-8" />
         <span className="text-xs mt-1">Home</span>
       </button>
       <button
         onClick={onChatClick}
-        className={`flex flex-col items-center transition-colors duration-200 ${
-          activeTab === 'chat' ? 'text-blue-600 font-bold' : 'text-gray-500'
-        }`}
+        className={`flex flex-col items-center transition-colors duration-300 ease-in-out p-4 rounded-lg ${
+          activeTab === 'chat' ? 'text-blue-600 font-bold' : 'text-gray-600'
+        } hover:text-blue-500 focus:text-blue-500 focus:outline-none hover:shadow-lg bg-transparent hover:bg-gray-100`}
       >
-        <img src={chatIcon} alt="Chat" className="w-8 h-8" />
+        <FontAwesomeIcon icon={faComments} className="w-8 h-8" />
         <span className="text-xs mt-1">Chat</span>
       </button>
     </div>
