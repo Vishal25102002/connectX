@@ -1,7 +1,6 @@
 // src/components/chatbot/ChatbotHeader.tsx
 import React, { useState, useEffect } from 'react';
 import { X, RotateCcw } from 'lucide-react';
-import lycaMobile from "../../assets/lycaMobile.jpeg";
 
 interface ChatbotHeaderProps {
   onClose: () => void;
@@ -35,13 +34,6 @@ const ChatbotHeader: React.FC<ChatbotHeaderProps> = ({ onClose, onReset }) => {
         <span className="font-semibold">{formatDate(currentTime)}</span>
         <span>{formatTime(currentTime)}</span>
       </div>
-
-      {/* Centered Logo */}
-      <img
-        src={lycaMobile}
-        alt="Logo"
-        className="h-8 w-auto"
-      />
 
       {/* Reset & Close Buttons on the right */}
       <div className="flex space-x-3">

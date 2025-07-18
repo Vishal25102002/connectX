@@ -7,7 +7,7 @@ interface ChatbotHomeProps {
   setActiveTab: (tab: 'home' | 'chat') => void;
 }
 
-const ChatbotHome: React.FC<ChatbotHomeProps> = ({ onPreloadedMessageClick, setActiveTab }) => {
+const ChatbotHome: React.FC<ChatbotHomeProps> = ({ setActiveTab }) => {
   const preloadedMessages = [
     { text: "Terms and Conditions", action: () => window.open("https://www.lycamobile.us/en/termscondition/", "_blank") },
     { text: "Chat with Lia", action: () => { console.log("Navigating to chat..."); setActiveTab('chat'); } },
