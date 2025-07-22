@@ -15,7 +15,8 @@ import {
   FaMapMarkerAlt,
   FaServer,
   FaBars,
-  FaTimes
+  FaTimes,
+  FaStar
 } from 'react-icons/fa';
 import bannerImage from '../assets/network_ 1.png';
 import productImg from '../assets/product1.jpg';
@@ -26,14 +27,20 @@ const Home = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const customers = [
-    { id: 1, name: 'Alice Johnson', feedback: 'Outstanding service and reliability!' },
-    { id: 2, name: 'Michael Smith', feedback: 'Exceptional support and seamless connectivity.' },
-    { id: 3, name: 'Samantha Lee', feedback: 'A perfect blend of innovative technology.' },
-    { id: 4, name: 'Robert Brown', feedback: 'Innovative products that truly transform.' },
-    { id: 5, name: 'Emily Davis', feedback: 'My go-to solution for connectivity.' },
+    { id: 1, name: 'Alice Johnson', feedback: 'Outstanding service and reliability!', rating: 5 },
+    { id: 2, name: 'Michael Smith', feedback: 'Exceptional support and seamless connectivity.', rating: 4 },
+    { id: 3, name: 'Samantha Lee', feedback: 'A perfect blend of innovative technology.', rating: 5 },
+    { id: 4, name: 'Robert Brown', feedback: 'Innovative products that truly transform.', rating: 5 },
+    { id: 5, name: 'Emily Davis', feedback: 'My go-to solution for connectivity.', rating: 4 },
   ];
 
-  const products = [1, 2, 3, 4];
+  const products = [
+    { id: 1, name: 'ConnectX Pro', description: 'Enterprise-grade secure connection solution', price: '$99/month' },
+    { id: 2, name: 'CloudNet', description: 'Cloud-based network management system', price: '$79/month' },
+    { id: 3, name: 'SecureLink', description: 'Advanced security for distributed teams', price: '$129/month' },
+    { id: 4, name: 'DataStream', description: 'High-speed data transfer optimization', price: '$89/month' },
+  ];
+
   const mapPins = [
     { id: 1, top: '30%', left: '23%', location: 'North America' },
     { id: 2, top: '45%', left: '50%', location: 'Europe' },
@@ -64,6 +71,38 @@ const Home = () => {
         }
         .nav-link:hover::before {
           width: 100%;
+        }
+        .footer-link {
+          position: relative;
+          display: inline-block;
+          transition: transform 0.3s ease;
+          padding-left: 5px;
+        }
+        .footer-link:hover {
+          transform: translateX(5px);
+        }
+        .social-icon {
+          transition: all 0.3s ease;
+        }
+        .social-icon:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+        }
+        .product-card {
+          transition: all 0.3s ease;
+          border: 1px solid transparent;
+        }
+        .product-card:hover {
+          border-color: #3b82f6;
+          box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+        }
+        @keyframes pulse {
+          0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+          70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        .pulse-animation {
+          animation: pulse 2s infinite;
         }
       `}</style>
 
@@ -155,7 +194,8 @@ const Home = () => {
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
-              className="px-8 py-4 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition-all"
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition-all pulse-animation"
             >
               Start Free Trial
             </motion.button>
@@ -185,13 +225,23 @@ const Home = () => {
           ].map((item, index) => (
             <motion.div
               key={index}
-              className="p-6 bg-white rounded-xl shadow-md flex flex-col items-center"
+              className="p-6 bg-white rounded-xl shadow-md flex flex-col items-center hover:shadow-lg transition-shadow"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
+              whileHover={{ y: -5 }}
             >
               <div className="p-4 bg-blue-100 rounded-full">{item.icon}</div>
-              <h3 className="text-2xl font-bold mt-4">{item.number}</h3>
+              <motion.h3 
+                className="text-2xl font-bold mt-4"
+                initial={{ scale: 1 }}
+                whileInView={{ 
+                  scale: [1, 1.2, 1],
+                  transition: { duration: 0.5, delay: 0.3 + index * 0.2 }
+                }}
+              >
+                {item.number}
+              </motion.h3>
               <p className="text-gray-600">{item.label}</p>
             </motion.div>
           ))}
@@ -225,6 +275,9 @@ const Home = () => {
                   key={index}
                   className="flex items-center space-x-4 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
                   whileHover={{ x: 10 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
                 >
                   <FaCheckCircle className="text-blue-600 text-xl" />
                   <span className="font-medium text-gray-700">{feature}</span>
@@ -245,23 +298,30 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((product, index) => (
               <motion.div
-                key={product}
-                className="group relative bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg transform transition-transform hover:-translate-y-2"
+                key={product.id}
+                className="group relative bg-gray-50 p-6 rounded-2xl shadow hover:shadow-lg product-card"
                 whileHover={{ scale: 1.02 }}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
+                <div className="absolute top-3 right-3 bg-blue-600 text-white text-xs py-1 px-2 rounded-full">
+                  {product.price}
+                </div>
                 <img
                   src={productImg}
-                  alt={`Product ${product}`}
+                  alt={product.name}
                   className="w-full h-48 object-cover rounded-xl mb-4 transition-transform duration-300 group-hover:scale-105"
                 />
-                <h3 className="text-2xl font-bold text-gray-800">Product {product}</h3>
-                <p className="text-gray-600 mb-4">Advanced connectivity solution</p>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-xl shadow hover:bg-blue-700 transition">
+                <h3 className="text-2xl font-bold text-gray-800">{product.name}</h3>
+                <p className="text-gray-600 mb-4">{product.description}</p>
+                <motion.button 
+                  className="bg-blue-600 text-white px-4 py-2 rounded-xl shadow hover:bg-blue-700 transition"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
                   Learn More
-                </button>
+                </motion.button>
               </motion.div>
             ))}
           </div>
@@ -282,11 +342,21 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
+                <div className="flex justify-center mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar 
+                      key={i} 
+                      className={`text-lg ${i < customer.rating ? 'text-yellow-400' : 'text-gray-300'}`} 
+                    />
+                  ))}
+                </div>
                 <p className="text-gray-600 italic mb-4">
                   "{customer.feedback}"
                 </p>
-                <div className="flex items-center space-x-4">
-                  <FaUserCircle className="text-4xl text-blue-600" />
+                <div className="flex items-center justify-center space-x-4">
+                  <div className="bg-blue-100 rounded-full p-2">
+                    <FaUserCircle className="text-3xl text-blue-600" />
+                  </div>
                   <span className="font-medium text-gray-800">{customer.name}</span>
                 </div>
               </motion.div>
@@ -329,6 +399,7 @@ const Home = () => {
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
                 transition={{ type: 'spring', delay: pin.id * 0.2 }}
+                whileHover={{ scale: 1.1 }}
               >
                 <span className="text-sm">{pin.location}</span>
               </motion.div>
@@ -340,55 +411,77 @@ const Home = () => {
       {/* Footer */}
       <footer className="bg-white text-black py-12 border-t border-gray-200">
         <div className="max-w-[90%] mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="space-y-4">
+          <motion.div 
+            className="space-y-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <h3 className="text-2xl font-bold">ConnectX</h3>
             <p className="text-gray-600">Revolutionizing global connectivity</p>
-          </div>
-          <div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
             <h4 className="text-lg font-semibold mb-4">Products</h4>
             <ul className="space-y-2">
               {['Enterprise VPN', 'Cloud Network', 'Security Suite', 'SD-WAN'].map((item) => (
                 <li
                   key={item}
-                  className="text-gray-600 hover:text-blue-600 transition"
+                  className="text-gray-600 hover:text-blue-600 transition footer-link"
                 >
                   {item}
                 </li>
               ))}
             </ul>
-          </div>
-          <div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <h4 className="text-lg font-semibold mb-4">Company</h4>
             <ul className="space-y-2">
               {['About', 'Careers', 'Blog', 'Contact'].map((item) => (
                 <li
                   key={item}
-                  className="text-gray-600 hover:text-blue-600 transition"
+                  className="text-gray-600 hover:text-blue-600 transition footer-link"
                 >
                   {item}
                 </li>
               ))}
             </ul>
-          </div>
-          <div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
             <div className="flex space-x-4">
               {[FaTwitter, FaLinkedin, FaGithub, FaYoutube].map((Icon, idx) => (
                 <motion.a
                   key={idx}
                   href="#"
-                  className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition"
+                  className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition social-icon"
                   whileHover={{ scale: 1.1 }}
                 >
                   <Icon className="text-xl text-blue-600" />
                 </motion.a>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
-        <div className="mt-8 pt-8 border-t border-gray-200 text-center text-gray-600">
+        <motion.div 
+          className="mt-8 pt-8 border-t border-gray-200 text-center text-gray-600"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
           © {new Date().getFullYear()} ConnectX. All rights reserved.
-        </div>
+        </motion.div>
       </footer>
       <div><Chatbot/></div>
     </div>
