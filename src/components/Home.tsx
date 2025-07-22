@@ -338,7 +338,7 @@ const Home = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white text-black py-12 border-t border-gray-200">
+      <footer id="contact" className="bg-white text-black py-12 border-t border-gray-200">
         <div className="max-w-[90%] mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <h3 className="text-2xl font-bold">ConnectX</h3>
